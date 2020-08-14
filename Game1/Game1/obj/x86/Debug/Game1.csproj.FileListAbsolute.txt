@@ -37,3 +37,5 @@ c:\users\powne\onedrive\documents\visual studio 2013\Projects\Game1\Game1\obj\x8
 c:\users\powne\onedrive\documents\visual studio 2013\Projects\Game1\Game1\obj\x86\Debug\Game1.pdb
 c:\users\powne\onedrive\documents\visual studio 2013\Projects\Game1\Game1\bin\Windows\x86\Debug\Content\square_brown_dark.xnb
 c:\users\powne\onedrive\documents\visual studio 2013\Projects\Game1\Game1\bin\Windows\x86\Debug\Content\select_circle.xnb
+C:\Users\powne\OneDrive\Documents\Visual Studio 2013\Projects\Chess1.2\Game1\Game1\obj\x86\Debug\Game1.exe
+C:\Users\powne\OneDrive\Documents\Visual Studio 2013\Projects\Chess1.2\Game1\Game1\obj\x86\Debug\Game1.pdb
