@@ -4,23 +4,23 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/b_bishop.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/b_king.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/b_knight.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/b_pawn.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/b_queen.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/b_rook.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/select_circle.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/square_brown_dark.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/square_brown_light.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/square_dark.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/square_light.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/w_bishop.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/w_king.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/w_knight.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/w_pawn.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/w_queen.png</File>
-    <File>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/w_rook.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/b_bishop.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/b_king.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/b_knight.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/b_pawn.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/b_queen.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/b_rook.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/select_circle.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/square_brown_dark.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/square_brown_light.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/square_dark.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/square_light.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/w_bishop.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/w_king.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/w_knight.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/w_pawn.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/w_queen.png</File>
+    <File>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/w_rook.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

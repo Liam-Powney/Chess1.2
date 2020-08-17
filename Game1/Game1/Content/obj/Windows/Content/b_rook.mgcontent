@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/b_rook.png</SourceFile>
+  <SourceFile>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/b_rook.png</SourceFile>
   <SourceTime>2020-08-10T18:11:05.0318914+01:00</SourceTime>
-  <DestFile>c:/users/powne/onedrive/documents/visual studio 2013/Projects/Game1/Game1/Content/bin/Windows/Content/b_rook.xnb</DestFile>
-  <DestTime>2020-08-14T14:48:34.315434+01:00</DestTime>
+  <DestFile>C:/Users/powne/OneDrive/Documents/Visual Studio 2013/Projects/Chess1.2/Game1/Game1/Content/bin/Windows/Content/b_rook.xnb</DestFile>
+  <DestTime>2020-08-14T22:05:26.9578255+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-08T16:35:54+00:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
