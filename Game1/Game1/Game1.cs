@@ -119,11 +119,12 @@ namespace Game1
                     Console.WriteLine("piece was deselected 2");
                 }
 
-                // else if there is a piece selected and player clicks on an availble move square
+                // if there is a piece selected and player clicks on an availble move square
                 else if (board.selectedPiece() != null && board.isMoveValid(xClickCoord, yClickCoord) == true)
                 {
                     board.Move(board.selectedPiece(), xClickCoord, yClickCoord);
                     board.selectedPiece().isSelected = false;
+                    whitesTurn = !whitesTurn;
                 }
             }
 

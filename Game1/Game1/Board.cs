@@ -221,11 +221,17 @@ namespace Game1
             return availableMoves;
         }
 
+        // moves a piece, and takes the piece if necessary
         public void Move(Piece p, int newX, int newY)
         {
+
+            if (pieceOnCoord(newX, newY) != null)
+            {
+                Pieces.Remove(pieceOnCoord(newX, newY));
+                Console.WriteLine(" a piece was taken!");
+            }
             p.x = newX;
             p.y = newY;
-            Game1.whitesTurn = !Game1.whitesTurn;
         }
     }
 }
