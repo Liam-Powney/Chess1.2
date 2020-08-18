@@ -148,8 +148,6 @@ namespace Game1
                 }
             }
 
-            base.availableMoves(pieceList);
-
             return availableMoves;
         }
     }

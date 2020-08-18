@@ -17,6 +17,7 @@ namespace Game1
         public int y;
         public bool isWhite;
         public bool isSelected;
+        public bool hasMoved;
 
         public static Texture2D whiteRook;
         public static Texture2D blackRook;
@@ -37,14 +38,11 @@ namespace Game1
             this.y = y;
             this.isWhite = isWhite;
             this.isSelected = false;
+            this.hasMoved = false;
         }
 
         public virtual List<Vector2> availableMoves(List<Piece> pieceList)
         {
-
-            // see if any moves put player in check and remove those
-
-
             return new List<Vector2>();
         }
 

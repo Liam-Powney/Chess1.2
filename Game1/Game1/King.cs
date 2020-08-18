@@ -43,19 +43,24 @@ namespace Game1
                     {
                         continue;
                     }
+
+                    availableMoves.Add(new Vector2(x + i, y + j));
+
                     foreach (Piece p in pieceList)
                     {
-                        if (p.x == i && p.y == j)
+                        if (p.x == (x + i) && p.y == (y + j))
                         {
                             if (p.isWhite != isWhite)
                             {
-                                availableMoves.Add(new Vector2(x + i, y + j));
                                 break;
                             }
-                            break;
+                            else
+                            {
+                                availableMoves.RemoveAt(availableMoves.Count - 1);
+                                break;
+                            }
                         }
                     }
-                    availableMoves.Add(new Vector2(x + i, y + j));
                 }
 			}
 

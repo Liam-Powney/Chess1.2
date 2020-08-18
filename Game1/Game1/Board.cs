@@ -13,6 +13,8 @@ namespace Game1
     {
         const int TILE_SIZE = 128;
 
+        public bool whitesTurn = true;
+
         public List<Piece> Pieces = new List<Piece>();
 
         Texture2D lightSquareTexture;
@@ -114,10 +116,13 @@ namespace Game1
             return null;
         }
 
-        // returns whether a move is valid
+
+
+
+        // returns whether mouse click is on a valid move square for the current selected piece
         public bool isMoveValid(int x, int y)
         {
-            foreach (Vector2 vec2 in this.selectedPiece().availableMoves(Pieces))
+            foreach (Vector2 vec2 in selectedPiece().availableMoves(Pieces))
             {
                 if ((int)vec2.X == x && (int)vec2.Y == y)
                 {
@@ -138,6 +143,22 @@ namespace Game1
             }
             p.x = newX;
             p.y = newY;
+            p.hasMoved = true;
+            whitesTurn = !whitesTurn;
         }
+
+        // returns the king piece for the current players turn
+        public Piece king()
+        {
+            foreach (Piece p in Pieces)
+            {
+                if (p is King && p.isWhite == whitesTurn)
+                {
+                    return p;
+                }
+            }
+            return null;
+        }
+
     }
 }
