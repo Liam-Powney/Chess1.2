@@ -63,7 +63,7 @@ namespace Game1
             {
                 if (p.isSelected)
                 {
-                    foreach(Vector2 vec2 in availableMoves(p))
+                    foreach(Vector2 vec2 in p.availableMoves(Pieces))
                     {
                         sb.Draw(selectCircle, new Rectangle((int)vec2.X * TILE_SIZE + TILE_SIZE * 1 / 5, (-(int)vec2.Y + 7) * TILE_SIZE + TILE_SIZE * 1 / 5, TILE_SIZE * 3 / 5, TILE_SIZE * 3 / 5), Color.Red * 0.65f);
                     }
@@ -83,6 +83,8 @@ namespace Game1
             Pieces.Add(new Rook(7, 0, true));
             Pieces.Add(new Rook(0, 7, false));
             Pieces.Add(new Rook(7, 7, false));
+            Pieces.Add(new King(4, 0, true));
+            Pieces.Add(new King(4, 7, false));
 
         }
 
@@ -115,7 +117,7 @@ namespace Game1
         // returns whether a move is valid
         public bool isMoveValid(int x, int y)
         {
-            foreach (Vector2 vec2 in availableMoves(selectedPiece()))
+            foreach (Vector2 vec2 in this.selectedPiece().availableMoves(Pieces))
             {
                 if ((int)vec2.X == x && (int)vec2.Y == y)
                 {
@@ -123,102 +125,6 @@ namespace Game1
                 }
             }
             return false;
-        }
-
-
-        //returns available moves for a selected peice
-        public List<Vector2> availableMoves(Piece p)
-        {
-            List<Vector2> availableMoves = new List<Vector2>();
-
-            if (p is Rook)
-            {
-                //check squares left of rook
-                for (int i = p.x+1; i < 8; i++)
-                {
-                    if (pieceOnCoord(i, p.y) == null)
-                    {
-                        availableMoves.Add(new Vector2(i, p.y));
-                    }
-                    else
-                    {
-                        if (pieceOnCoord(i, p.y).isWhite != p.isWhite)
-                        {
-                            availableMoves.Add(new Vector2(i, p.y));
-                            break;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                //check squares right of rook
-                for (int i = p.x - 1; i >= 0; i = i-1)
-                {
-                    if (pieceOnCoord(i, p.y) == null)
-                    {
-                        availableMoves.Add(new Vector2(i, p.y));
-                    }
-                    else
-                    {
-                        if (pieceOnCoord(i, p.y).isWhite != p.isWhite)
-                        {
-                            availableMoves.Add(new Vector2(i, p.y));
-                            break;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                //check squares above rook
-                for (int i = p.y + 1; i < 8; i++)
-                {
-                    if (pieceOnCoord(p.x, i) == null)
-                    {
-                        availableMoves.Add(new Vector2(p.x, i));
-                    }
-                    else
-                    {
-                        if (pieceOnCoord(p.x, i).isWhite != p.isWhite)
-                        {
-                            availableMoves.Add(new Vector2(p.x, i));
-                            break;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                //check squares under rook
-                for (int i = p.y - 1; i >= 0; i = i - 1)
-                {
-                    if (pieceOnCoord(p.x, i) == null)
-                    {
-                        availableMoves.Add(new Vector2(p.x, i));
-                    }
-                    else
-                    {
-                        if (pieceOnCoord(p.x, i).isWhite != p.isWhite)
-                        {
-                            availableMoves.Add(new Vector2(p.x, i));
-                            break;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return availableMoves;
         }
 
         // moves a piece, and takes the piece if necessary

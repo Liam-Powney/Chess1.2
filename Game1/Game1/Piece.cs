@@ -39,8 +39,12 @@ namespace Game1
             this.isSelected = false;
         }
 
-        public virtual List<Vector2> availableMoves()
+        public virtual List<Vector2> availableMoves(List<Piece> pieceList)
         {
+
+            // see if any moves put player in check and remove those
+
+
             return new List<Vector2>();
         }
 
@@ -60,21 +64,8 @@ namespace Game1
             blackPawn = c.Load<Texture2D>("b_pawn");
         }
 
-        public void DrawPiece(SpriteBatch sb)
+        public virtual void DrawPiece(SpriteBatch sb)
         {
-            Rectangle r = new Rectangle( x*TILE_SIZE + TILE_SIZE*1/9 , (-y+7)*TILE_SIZE + TILE_SIZE*1/9, TILE_SIZE*7/9, TILE_SIZE*7/9);
-            if (this is Rook == true)
-            {
-                if (this.isWhite)
-                {
-                    sb.Draw(whiteRook, r, Color.White);
-                }
-                else
-                {
-                    sb.Draw(blackRook, r, Color.White);
-                }
-                
-            }
         }
 
     }
