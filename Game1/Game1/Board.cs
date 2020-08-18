@@ -145,6 +145,7 @@ namespace Game1
             p.y = newY;
             p.hasMoved = true;
             whitesTurn = !whitesTurn;
+            checkmate();
         }
 
         // returns the king piece for the current players turn
@@ -158,6 +159,36 @@ namespace Game1
                 }
             }
             return null;
+        }
+
+        // check for checkmate
+        public void checkmate()
+        {
+            List<Vector2> allMoves = new List<Vector2>();
+            foreach(Piece p in Pieces)
+            {
+                if (p.isWhite == whitesTurn)
+                {
+                    foreach (Vector2 move in p.availableMoves(Pieces))
+                    {
+                        allMoves.Add(move);
+                    }
+                }
+            }
+
+            if(!allMoves.Any())
+            {
+                if (whitesTurn)
+                {
+                    Console.WriteLine("Checkmate! Black Wins!");
+                }
+                else
+                {
+                    Console.WriteLine("Checkmate! White Wins!");
+                }
+            }
+            Console.WriteLine("Checkmate was checked for");
+
         }
 
     }

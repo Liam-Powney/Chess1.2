@@ -125,7 +125,7 @@ namespace Game1
                 }
             }
 
-            oldState = newState; 
+            oldState = newState;
 
             base.Update(gameTime);
         }
