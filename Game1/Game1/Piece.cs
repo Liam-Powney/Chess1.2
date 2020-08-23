@@ -68,12 +68,12 @@ namespace Game1
         }
 
         // creates a new copy of an instance of a piece
-        public Piece copyPiece()
+        public virtual Piece copyPiece()
         {
             Piece copiedPiece = new Piece(this.x, this.y, this.isWhite);
             copiedPiece.isSelected = this.isSelected;
             copiedPiece.hasMoved = this.hasMoved;
-            Console.WriteLine("piece was copied succesfully!");
+            copiedPiece.pawnLastDoulbeMove = this.pawnLastDoulbeMove;
             return copiedPiece;
         }
 

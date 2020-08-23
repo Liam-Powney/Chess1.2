@@ -17,6 +17,7 @@ namespace Game1
         SpriteBatch spriteBatch;
 
         Board board = new Board();
+        public List<Vector2> availableMoves = new List<Vector2>();
 
         public Game1()
         {
@@ -93,12 +94,14 @@ namespace Game1
                 if (board.selectedPiece() != null && board.pieceOnCoord(xClickCoord, yClickCoord) == board.selectedPiece())
                 {
                     board.selectedPiece().isSelected = false;
+                    board.availableMoves.Clear();
                     //Console.WriteLine("piece was deselected 1");
                 }
                 // if there is no piece selected, and there is a piece on the square the user clicked on that is the correct colour for the turn
                 else if (board.selectedPiece() == null && board.pieceOnCoord(xClickCoord, yClickCoord) != null && board.pieceOnCoord(xClickCoord, yClickCoord).isWhite == board.whitesTurn)
                 {
                     board.pieceOnCoord(xClickCoord, yClickCoord).isSelected = true;
+                    board.availableMoves = board.checklessAvailableMoves(board.selectedPiece().availableMoves(board.Pieces));
                     //Console.WriteLine("a piece was selected");
                 }
 
@@ -106,7 +109,9 @@ namespace Game1
                 else if (board.selectedPiece() != null && board.pieceOnCoord(xClickCoord, yClickCoord) != null && board.pieceOnCoord(xClickCoord, yClickCoord).isWhite == board.whitesTurn && board.pieceOnCoord(xClickCoord, yClickCoord) != board.selectedPiece())
                 {
                     board.selectedPiece().isSelected = false;
+                    board.availableMoves.Clear();
                     board.pieceOnCoord(xClickCoord, yClickCoord).isSelected = true;
+                    board.availableMoves = board.checklessAvailableMoves(board.selectedPiece().availableMoves(board.Pieces));
                     //Console.WriteLine("another piece was selected");
                 }
 
@@ -114,6 +119,7 @@ namespace Game1
                 else if (board.selectedPiece() != null && board.clickIsValidMove(xClickCoord, yClickCoord) == false)
                 {
                     board.selectedPiece().isSelected = false;
+                    board.availableMoves.Clear();
                     //Console.WriteLine("piece was deselected 2");
                 }
 

@@ -14,6 +14,7 @@ namespace Game1
         const int TILE_SIZE = 128;
 
         public bool whitesTurn = true;
+        public List<Vector2> availableMoves = new List<Vector2>();
 
         public List<Piece> Pieces = new List<Piece>();
 
@@ -63,10 +64,12 @@ namespace Game1
             //draw available moves for selected piece
             if (selectedPiece() != null)
             {
-                List<Vector2> availableMoves = selectedPiece().availableMoves(Pieces);
-                foreach (Vector2 vec2 in availableMoves)
+                if (availableMoves.Any())
                 {
-                    sb.Draw(selectCircle, new Rectangle((int)vec2.X * TILE_SIZE + TILE_SIZE * 1 / 5, (-(int)vec2.Y + 7) * TILE_SIZE + TILE_SIZE * 1 / 5, TILE_SIZE * 3 / 5, TILE_SIZE * 3 / 5), Color.Red * 0.65f);
+                    foreach (Vector2 vec2 in availableMoves)
+                    {
+                        sb.Draw(selectCircle, new Rectangle((int)vec2.X * TILE_SIZE + TILE_SIZE * 1 / 5, (-(int)vec2.Y + 7) * TILE_SIZE + TILE_SIZE * 1 / 5, TILE_SIZE * 3 / 5, TILE_SIZE * 3 / 5), Color.Red * 0.65f);
+                    }
                 }
             }
         }
@@ -79,17 +82,17 @@ namespace Game1
             Pieces.Clear();
 
             //create board pieces here
-            //Pieces.Add(new Rook(0, 0, true));
+            Pieces.Add(new Rook(0, 0, true));
             //Pieces.Add(new Rook(7, 1, true));
             Pieces.Add(new Rook(0, 7, false));
-            Pieces.Add(new Rook(4, 5, false));
-            Pieces.Add(new King(2, 2, false));
-            Pieces.Add(new Knight(6, 2, true));
-            Pieces.Add(new Bishop(6, 6, true));
-            Pieces.Add(new Queen(4, 4, true));
-            Pieces.Add(new Pawn(1, 1, true));
-            Pieces.Add(new Pawn(0, 6, false));
-            //Pieces.Add(new King(4, 7, false));
+            //Pieces.Add(new Rook(4, 5, false));
+            Pieces.Add(new King(2, 7, true));
+            Pieces.Add(new King(7, 0, false));
+            //Pieces.Add(new Knight(6, 2, true));
+            //Pieces.Add(new Bishop(6, 6, true));
+            //Pieces.Add(new Queen(4, 4, true));
+            //Pieces.Add(new Pawn(1, 1, true));
+            //Pieces.Add(new Pawn(0, 6, false));
 
         }
 
@@ -242,8 +245,9 @@ namespace Game1
             foreach(Piece p in this.Pieces)
             {
                 copiedBoard.Pieces.Add(p.copyPiece());
+                //Console.WriteLine("Copied a " + p.GetType().ToString());
             }
-            Console.WriteLine("Board was copied successfully!");
+            //Console.WriteLine("Board was copied successfully!");
             return copiedBoard;
         }
 
@@ -260,52 +264,52 @@ namespace Game1
         }
 
 
-        //// vets the list of available moves to remove moves that would leave the player in check
-        //public List<Vector2> checklessAvailableMoves(List<Vector2> availableMoves)
-        //{
-        //    int cnt = 1;
-        //    List<Vector2> checklessAvailableMoves = copyList(availableMoves);
-        //    // for each available move
-        //    foreach(Vector2 move in availableMoves)
-        //    {
-        //        cnt++;
-        //        // create a copy of the board
-        //        Board copiedBoard = this.copiedBoard();
-        //        // perform the move on the copied board
-        //        copiedBoard.Move(copiedBoard.selectedPiece(), (int)move.X, (int)move.Y);
-        //        // for all the pieces on the copied board that are the opposite colour to the piece just moved
-        //        foreach(Piece p in copiedBoard.colouredPieces(!this.selectedPiece().isWhite))
-        //        {
-        //            // create a list of new moves for that piece on the new board
-        //            List<Vector2> newMoves = p.availableMoves(copiedBoard.Pieces);
-        //            //for each of those moves:
-        //            foreach(Vector2 newMove in newMoves)
-        //            {
-        //                // if the move coords are the same as the kings coords
-        //                if ((int)newMove.X == copiedBoard.king(this.selectedPiece().isWhite).x && (int)newMove.Y == copiedBoard.king(this.selectedPiece().isWhite).y)
-        //                {
-        //                    // remove the move from the original list as it would lead to check, and repeat for all the other moves
-        //                    checklessAvailableMoves.Remove(move);
-        //                    goto MoveRemoved;
-        //                }
-        //            }
-        //        }
+        // vets the list of available moves to remove moves that would leave the player in check
+        public List<Vector2> checklessAvailableMoves(List<Vector2> availableMoves)
+        {
+            int cnt = 1;
+            List<Vector2> checklessAvailableMoves = copyList(availableMoves);
+            // for each available move
+            foreach (Vector2 move in availableMoves)
+            {
+                cnt++;
+                // create a copy of the board
+                Board copiedBoard = this.copiedBoard();
+                // perform the move on the copied board
+                copiedBoard.Move(copiedBoard.selectedPiece(), (int)move.X, (int)move.Y);
+                // for all the pieces on the copied board that are the opposite colour to the piece just moved
+                foreach (Piece p in copiedBoard.colouredPieces(!this.selectedPiece().isWhite))
+                {
+                    // create a list of new moves for that piece on the new board
+                    List<Vector2> newMoves = p.availableMoves(copiedBoard.Pieces);
+                    //for each of those moves:
+                    foreach (Vector2 newMove in newMoves)
+                    {
+                        // if the move coords are the same as the kings coords
+                        if ((int)newMove.X == copiedBoard.king(this.selectedPiece().isWhite).x && (int)newMove.Y == copiedBoard.king(this.selectedPiece().isWhite).y)
+                        {
+                            // remove the move from the original list as it would lead to check, and repeat for all the other moves
+                            checklessAvailableMoves.Remove(move);
+                            goto MoveRemoved;
+                        }
+                    }
+                }
 
-        //        goto MoveIsFine;
+                goto MoveIsFine;
 
-        //        MoveRemoved : Console.WriteLine("Move was removed as it left the king in check!");
-        //        Console.WriteLine(cnt.ToString());
-        //        continue;
+            MoveRemoved: //Console.WriteLine("Move was removed as it left the king in check!");
+                //Console.WriteLine(cnt.ToString());
+                continue;
 
-        //        MoveIsFine : Console.WriteLine("Move is Legal!");
-        //        Console.WriteLine(cnt.ToString());
-        //        continue;
+            MoveIsFine: //Console.WriteLine("Move is Legal!");
+                //Console.WriteLine(cnt.ToString());
+                continue;
 
 
 
-        //    }
-        //    return checklessAvailableMoves;
-        //}
+            }
+            return checklessAvailableMoves;
+        }
 
 
 

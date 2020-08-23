@@ -31,8 +31,18 @@ namespace Game1
             }
         }
 
+        public override Piece copyPiece()
+        {
+            King copiedPiece = new King(this.x, this.y, this.isWhite);
+            copiedPiece.isSelected = this.isSelected;
+            copiedPiece.hasMoved = this.hasMoved;
+            copiedPiece.pawnLastDoulbeMove = this.pawnLastDoulbeMove;
+            return copiedPiece;
+        }
+
         public override List<Vector2> availableMoves(List<Piece> pieceList)
         {
+            //Console.WriteLine("Finding King Moves");
             List<Vector2> availableMoves = new List<Vector2>();
 
             for (int i = -1; i < 2; i++)
