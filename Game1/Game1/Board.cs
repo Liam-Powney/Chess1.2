@@ -207,6 +207,20 @@ namespace Game1
             return colouredPieces;
         }
 
+        // returns list of all rooks of a given colour 
+        public List<Piece> Rooks(List<Piece> pieceList)
+        {
+            List<Piece> Rooks = new List<Piece>();
+            foreach(Piece p in pieceList)
+            {
+                if (p is Rook)
+                {
+                    Rooks.Add(p);
+                }
+            }
+            return Rooks;
+        }
+
         // check for checkmate
         public void checkmate()
         {

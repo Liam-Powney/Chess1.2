@@ -101,6 +101,7 @@ namespace Game1
                 else if (board.selectedPiece() == null && board.pieceOnCoord(xClickCoord, yClickCoord) != null && board.pieceOnCoord(xClickCoord, yClickCoord).isWhite == board.whitesTurn)
                 {
                     board.pieceOnCoord(xClickCoord, yClickCoord).isSelected = true;
+                    board.availableMoves.Clear();
                     board.availableMoves = board.checklessAvailableMoves(board.selectedPiece().availableMoves(board.Pieces));
                     //Console.WriteLine("a piece was selected");
                 }
@@ -128,6 +129,7 @@ namespace Game1
                 {
                     board.Move(board.selectedPiece(), xClickCoord, yClickCoord);
                     board.selectedPiece().isSelected = false;
+                    board.availableMoves.Clear();
                 }
             }
 
