@@ -93,13 +93,13 @@ namespace Game1
                 if (board.selectedPiece() != null && board.pieceOnCoord(xClickCoord, yClickCoord) == board.selectedPiece())
                 {
                     board.selectedPiece().isSelected = false;
-                    Console.WriteLine("piece was deselected 1");
+                    //Console.WriteLine("piece was deselected 1");
                 }
                 // if there is no piece selected, and there is a piece on the square the user clicked on that is the correct colour for the turn
                 else if (board.selectedPiece() == null && board.pieceOnCoord(xClickCoord, yClickCoord) != null && board.pieceOnCoord(xClickCoord, yClickCoord).isWhite == board.whitesTurn)
                 {
                     board.pieceOnCoord(xClickCoord, yClickCoord).isSelected = true;
-                    Console.WriteLine("a piece was selected");
+                    //Console.WriteLine("a piece was selected");
                 }
 
                 //if there is a piece selected and user clicks on another piece of the correct colour
@@ -107,18 +107,18 @@ namespace Game1
                 {
                     board.selectedPiece().isSelected = false;
                     board.pieceOnCoord(xClickCoord, yClickCoord).isSelected = true;
-                    Console.WriteLine("another piece was selected");
+                    //Console.WriteLine("another piece was selected");
                 }
 
                 // if there is a piece selected and player clicks on a square that doesn't have a white piece on it or isn't in the list of available moves
-                else if (board.selectedPiece() != null && board.isMoveValid(xClickCoord, yClickCoord) == false)
+                else if (board.selectedPiece() != null && board.clickIsValidMove(xClickCoord, yClickCoord) == false)
                 {
                     board.selectedPiece().isSelected = false;
-                    Console.WriteLine("piece was deselected 2");
+                    //Console.WriteLine("piece was deselected 2");
                 }
 
                 // if there is a piece selected and player clicks on an available move square
-                else if (board.selectedPiece() != null && board.isMoveValid(xClickCoord, yClickCoord) == true)
+                else if (board.selectedPiece() != null && board.clickIsValidMove(xClickCoord, yClickCoord) == true)
                 {
                     board.Move(board.selectedPiece(), xClickCoord, yClickCoord);
                     board.selectedPiece().isSelected = false;

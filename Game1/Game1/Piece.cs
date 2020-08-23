@@ -16,8 +16,9 @@ namespace Game1
         public int x;
         public int y;
         public bool isWhite;
-        public bool isSelected;
         public bool hasMoved;
+        public bool isSelected;
+        public bool pawnLastDoulbeMove = false;
 
         public static Texture2D whiteRook;
         public static Texture2D blackRook;
@@ -64,6 +65,16 @@ namespace Game1
 
         public virtual void DrawPiece(SpriteBatch sb)
         {
+        }
+
+        // creates a new copy of an instance of a piece
+        public Piece copyPiece()
+        {
+            Piece copiedPiece = new Piece(this.x, this.y, this.isWhite);
+            copiedPiece.isSelected = this.isSelected;
+            copiedPiece.hasMoved = this.hasMoved;
+            Console.WriteLine("piece was copied succesfully!");
+            return copiedPiece;
         }
 
     }

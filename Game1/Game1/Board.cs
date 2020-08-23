@@ -61,14 +61,12 @@ namespace Game1
                 p.DrawPiece(sb);
             }
             //draw available moves for selected piece
-            foreach(Piece p in Pieces)
+            if (selectedPiece() != null)
             {
-                if (p.isSelected)
+                List<Vector2> availableMoves = selectedPiece().availableMoves(Pieces);
+                foreach (Vector2 vec2 in availableMoves)
                 {
-                    foreach(Vector2 vec2 in p.availableMoves(Pieces))
-                    {
-                        sb.Draw(selectCircle, new Rectangle((int)vec2.X * TILE_SIZE + TILE_SIZE * 1 / 5, (-(int)vec2.Y + 7) * TILE_SIZE + TILE_SIZE * 1 / 5, TILE_SIZE * 3 / 5, TILE_SIZE * 3 / 5), Color.Red * 0.65f);
-                    }
+                    sb.Draw(selectCircle, new Rectangle((int)vec2.X * TILE_SIZE + TILE_SIZE * 1 / 5, (-(int)vec2.Y + 7) * TILE_SIZE + TILE_SIZE * 1 / 5, TILE_SIZE * 3 / 5, TILE_SIZE * 3 / 5), Color.Red * 0.65f);
                 }
             }
         }
@@ -81,12 +79,17 @@ namespace Game1
             Pieces.Clear();
 
             //create board pieces here
-            Pieces.Add(new Rook(0, 0, true));
-            Pieces.Add(new Rook(7, 0, true));
+            //Pieces.Add(new Rook(0, 0, true));
+            //Pieces.Add(new Rook(7, 1, true));
             Pieces.Add(new Rook(0, 7, false));
-            Pieces.Add(new Rook(7, 7, false));
-            Pieces.Add(new King(4, 0, true));
-            Pieces.Add(new King(4, 7, false));
+            Pieces.Add(new Rook(4, 5, false));
+            Pieces.Add(new King(2, 2, false));
+            Pieces.Add(new Knight(6, 2, true));
+            Pieces.Add(new Bishop(6, 6, true));
+            Pieces.Add(new Queen(4, 4, true));
+            Pieces.Add(new Pawn(1, 1, true));
+            Pieces.Add(new Pawn(0, 6, false));
+            //Pieces.Add(new King(4, 7, false));
 
         }
 
@@ -116,11 +119,8 @@ namespace Game1
             return null;
         }
 
-
-
-
         // returns whether mouse click is on a valid move square for the current selected piece
-        public bool isMoveValid(int x, int y)
+        public bool clickIsValidMove(int x, int y)
         {
             foreach (Vector2 vec2 in selectedPiece().availableMoves(Pieces))
             {
@@ -132,33 +132,76 @@ namespace Game1
             return false;
         }
 
-        // moves a piece, and takes the piece if necessary
+        // moves a piece, takes the piece if necessary, and changes who's turn it is
         public void Move(Piece p, int newX, int newY)
         {
+            // en passant 
+            if (p is Pawn && p.x != newX && pieceOnCoord(newX, newY) == null)
+            {
+                if (p.isWhite)
+                {
+                    Pieces.Remove(pieceOnCoord(newX, newY - 1));
+                    Console.WriteLine("White took en passant!");
+                }
+                else
+                {
+                    Pieces.Remove(pieceOnCoord(newX, newY + 1));
+                    Console.WriteLine("Black took en passant!");
+                }
+            }
 
-            if (pieceOnCoord(newX, newY) != null)
+            // taking a piece
+            else if (pieceOnCoord(newX, newY) != null)
             {
                 Pieces.Remove(pieceOnCoord(newX, newY));
-                Console.WriteLine(" a piece was taken!");
+                //Console.WriteLine(" a piece was taken!");
             }
+
+            // track if a pawn double moved for en passant
+            if (p is Pawn && Math.Abs(newY - p.y) == 2)
+            {
+                p.pawnLastDoulbeMove = true;
+            }
+            else if (p is Pawn && !(Math.Abs(newY - p.y) == 2))
+            {
+                p.pawnLastDoulbeMove = false;
+            }
+
+            // move piece to new location
             p.x = newX;
             p.y = newY;
             p.hasMoved = true;
+
+            // makes it the other players turn and checks for checkmate and stalemate
             whitesTurn = !whitesTurn;
             checkmate();
         }
 
-        // returns the king piece for the current players turn
-        public Piece king()
+        // returns the king piece for either player
+        public Piece king(bool isWhite)
         {
             foreach (Piece p in Pieces)
             {
-                if (p is King && p.isWhite == whitesTurn)
+                if (p is King && p.isWhite == isWhite)
                 {
                     return p;
                 }
             }
             return null;
+        }
+
+        //returns all pieces of a single colour
+        public List<Piece> colouredPieces(bool whitePieces)
+        {
+            List<Piece> colouredPieces = new List<Piece>();
+            foreach(Piece p in Pieces)
+            {
+                if (p.isWhite == whitePieces)
+                {
+                    colouredPieces.Add(p);
+                }
+            }
+            return colouredPieces;
         }
 
         // check for checkmate
@@ -180,16 +223,91 @@ namespace Game1
             {
                 if (whitesTurn)
                 {
-                    Console.WriteLine("Checkmate! Black Wins!");
+                    //Console.WriteLine("Checkmate! Black Wins!");
                 }
                 else
                 {
-                    Console.WriteLine("Checkmate! White Wins!");
+                    //Console.WriteLine("Checkmate! White Wins!");
                 }
             }
-            Console.WriteLine("Checkmate was checked for");
+            //Console.WriteLine("Checkmate was checked for");
 
         }
+
+        //creates a copy of the current board instance
+        public Board copiedBoard()
+        {
+            Board copiedBoard = new Board();
+            copiedBoard.whitesTurn = whitesTurn;
+            foreach(Piece p in this.Pieces)
+            {
+                copiedBoard.Pieces.Add(p.copyPiece());
+            }
+            Console.WriteLine("Board was copied successfully!");
+            return copiedBoard;
+        }
+
+        // copies a list of vec2s
+
+        public List<Vector2> copyList(List<Vector2> list)
+        {
+            List<Vector2> copiedList = new List<Vector2>();
+            foreach(Vector2 vec2 in list)
+            {
+                copiedList.Add(vec2);
+            }
+            return copiedList;
+        }
+
+
+        //// vets the list of available moves to remove moves that would leave the player in check
+        //public List<Vector2> checklessAvailableMoves(List<Vector2> availableMoves)
+        //{
+        //    int cnt = 1;
+        //    List<Vector2> checklessAvailableMoves = copyList(availableMoves);
+        //    // for each available move
+        //    foreach(Vector2 move in availableMoves)
+        //    {
+        //        cnt++;
+        //        // create a copy of the board
+        //        Board copiedBoard = this.copiedBoard();
+        //        // perform the move on the copied board
+        //        copiedBoard.Move(copiedBoard.selectedPiece(), (int)move.X, (int)move.Y);
+        //        // for all the pieces on the copied board that are the opposite colour to the piece just moved
+        //        foreach(Piece p in copiedBoard.colouredPieces(!this.selectedPiece().isWhite))
+        //        {
+        //            // create a list of new moves for that piece on the new board
+        //            List<Vector2> newMoves = p.availableMoves(copiedBoard.Pieces);
+        //            //for each of those moves:
+        //            foreach(Vector2 newMove in newMoves)
+        //            {
+        //                // if the move coords are the same as the kings coords
+        //                if ((int)newMove.X == copiedBoard.king(this.selectedPiece().isWhite).x && (int)newMove.Y == copiedBoard.king(this.selectedPiece().isWhite).y)
+        //                {
+        //                    // remove the move from the original list as it would lead to check, and repeat for all the other moves
+        //                    checklessAvailableMoves.Remove(move);
+        //                    goto MoveRemoved;
+        //                }
+        //            }
+        //        }
+
+        //        goto MoveIsFine;
+
+        //        MoveRemoved : Console.WriteLine("Move was removed as it left the king in check!");
+        //        Console.WriteLine(cnt.ToString());
+        //        continue;
+
+        //        MoveIsFine : Console.WriteLine("Move is Legal!");
+        //        Console.WriteLine(cnt.ToString());
+        //        continue;
+
+
+
+        //    }
+        //    return checklessAvailableMoves;
+        //}
+
+
 
     }
 }
