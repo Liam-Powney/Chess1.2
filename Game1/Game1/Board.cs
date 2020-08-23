@@ -13,7 +13,7 @@ namespace Game1
     {
         const int TILE_SIZE = 128;
 
-        public bool whitesTurn = true;
+        public bool whitesTurn = false;
         public List<Vector2> availableMoves = new List<Vector2>();
 
         public List<Piece> Pieces = new List<Piece>();
@@ -83,11 +83,11 @@ namespace Game1
 
             //create board pieces here
             Pieces.Add(new Rook(0, 0, true));
-            //Pieces.Add(new Rook(7, 1, true));
+            Pieces.Add(new Rook(7, 0, true));
             Pieces.Add(new Rook(0, 7, false));
-            //Pieces.Add(new Rook(4, 5, false));
-            Pieces.Add(new King(2, 7, true));
-            Pieces.Add(new King(7, 0, false));
+            Pieces.Add(new Rook(7, 7, false));
+            Pieces.Add(new King(4, 0, true));
+            Pieces.Add(new King(4, 7, false));
             //Pieces.Add(new Knight(6, 2, true));
             //Pieces.Add(new Bishop(6, 6, true));
             //Pieces.Add(new Queen(4, 4, true));
@@ -109,7 +109,7 @@ namespace Game1
             return null;
         }
 
-        //returns piece on give board coord
+        //returns piece on a given board coord
         public Piece pieceOnCoord(int x, int y)
         {
             foreach (Piece p in Pieces)
@@ -125,7 +125,7 @@ namespace Game1
         // returns whether mouse click is on a valid move square for the current selected piece
         public bool clickIsValidMove(int x, int y)
         {
-            foreach (Vector2 vec2 in selectedPiece().availableMoves(Pieces))
+            foreach (Vector2 vec2 in availableMoves)
             {
                 if ((int)vec2.X == x && (int)vec2.Y == y)
                 {
@@ -151,6 +151,17 @@ namespace Game1
                     Pieces.Remove(pieceOnCoord(newX, newY + 1));
                     Console.WriteLine("Black took en passant!");
                 }
+            }
+
+            // castling queenside
+            if (p is King && (p.x - newX) == 2)
+            {
+                pieceOnCoord(0, p.y).x = pieceOnCoord(0, p.y).x + 3;
+            }
+                //castling kingside 
+            else if (p is King && (p.x - newX) == -2)
+            {
+                pieceOnCoord(7, p.y).x = pieceOnCoord(7, p.y).x - 2;
             }
 
             // taking a piece
@@ -207,13 +218,13 @@ namespace Game1
             return colouredPieces;
         }
 
-        // returns list of all rooks of a given colour 
-        public List<Piece> Rooks(List<Piece> pieceList)
+        // returns list of all rooks of a given colour that haven't moved
+        public List<Piece> Rooks(bool isWhite, List<Piece> pieceList)
         {
             List<Piece> Rooks = new List<Piece>();
             foreach(Piece p in pieceList)
             {
-                if (p is Rook)
+                if (p is Rook && p.isWhite==isWhite && !p.hasMoved)
                 {
                     Rooks.Add(p);
                 }
@@ -270,7 +281,7 @@ namespace Game1
         public List<Vector2> copyList(List<Vector2> list)
         {
             List<Vector2> copiedList = new List<Vector2>();
-            foreach(Vector2 vec2 in list)
+            foreach (Vector2 vec2 in list)
             {
                 copiedList.Add(vec2);
             }
@@ -324,8 +335,6 @@ namespace Game1
             }
             return checklessAvailableMoves;
         }
-
-
 
     }
 }

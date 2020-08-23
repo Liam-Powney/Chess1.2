@@ -74,6 +74,97 @@ namespace Game1
                 }
 			}
 
+            // castlingOptions
+
+            // King Side Castling
+
+            List<Vector2> castlingSquares = new List<Vector2>();
+            castlingSquares.Add(new Vector2(this.x + 1, this.y));
+            castlingSquares.Add(new Vector2(this.x + 2, this.y));
+
+            
+            foreach(Vector2 square in castlingSquares)
+            {
+                // is there a piece blocking castling?
+                foreach(Piece p in pieceList)
+                {
+                    if (p.x == (int)square.X && p.y == (int)square.Y)
+                    {
+                        goto QueenSideCastle;
+                    }
+                }
+                // removes castling through check
+                foreach(Piece p in pieceList) if (p.isWhite != this.isWhite && !(p is King))
+                {
+                    foreach(Vector2 move in p.availableMoves(pieceList))
+                    {
+                        if (move.X == square.X && move.Y == square.Y)
+                        {
+                            goto QueenSideCastle;
+                        }
+                    }
+                }
+            }
+
+            // checks that the rook satisfies castling requirements 
+            castlingSquares.Add(new Vector2(this.x + 3, this.y));
+            List<Piece> RookList = new List<Piece>();
+            foreach(Piece p in pieceList) if (p is Rook && p.isWhite == this.isWhite)
+            {
+                RookList.Add(p);
+            }
+
+            foreach (Piece rook in RookList) if (rook.x == (int)castlingSquares[2].X && rook.y == (int)castlingSquares[2].Y && !rook.hasMoved)
+            {
+                availableMoves.Add(new Vector2(this.x + 2, this.y));
+            }
+
+            // Queen Side Castling
+
+        QueenSideCastle: ;
+
+            castlingSquares.Clear();
+
+            castlingSquares.Add(new Vector2(this.x - 1, this.y));
+            castlingSquares.Add(new Vector2(this.x - 2, this.y));
+            castlingSquares.Add(new Vector2(this.x - 3, this.y));
+
+            foreach (Vector2 square in castlingSquares)
+            {
+                foreach (Piece p in pieceList)
+                {
+                    if (p.x == (int)square.X && p.y == (int)square.Y)
+                    {
+                        goto End;
+                    }
+                }
+                foreach (Piece p in pieceList) if (p.isWhite != this.isWhite && !(p is King))
+                    {
+                        foreach (Vector2 move in p.availableMoves(pieceList))
+                        {
+                            if (move.X == square.X && move.Y == square.Y)
+                            {
+                                goto End;
+                            }
+                        }
+                    }
+            }
+
+            castlingSquares.Add(new Vector2(this.x - 4, this.y));
+            // if there is a rook that hasn't moved on the correct square for castling
+            List<Piece> RookList1 = new List<Piece>();
+            foreach (Piece p in pieceList) if (p is Rook && p.isWhite == this.isWhite)
+                {
+                    RookList1.Add(p);
+                }
+
+            foreach (Piece rook in RookList1) if (rook.x == (int)castlingSquares[3].X && rook.y == (int)castlingSquares[3].Y && !rook.hasMoved)
+                {
+                    availableMoves.Add(new Vector2(this.x - 2, this.y));
+                }
+
+            End : 
+
             return availableMoves;
         }
 
