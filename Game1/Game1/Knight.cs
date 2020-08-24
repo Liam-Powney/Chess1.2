@@ -33,28 +33,41 @@ namespace Game1
         public override Piece copyPiece()
         {
             Knight copiedPiece = new Knight(this.x, this.y, this.isWhite);
-            copiedPiece.isSelected = this.isSelected;
             copiedPiece.hasMoved = this.hasMoved;
             copiedPiece.pawnLastDoulbeMove = this.pawnLastDoulbeMove;
             return copiedPiece;
         }
 
         //returns available moves for a selected peice
-        public override List<Vector2> availableMoves(List<Piece> pieceList)
+        public override List<Vector2> controlledSquares(List<Piece> pieceList)
         {
-            List<Vector2> availableMoves = new List<Vector2>();
-            availableMoves.Add(new Vector2(this.x + 1, this.y + 2));
-            availableMoves.Add(new Vector2(this.x - 1, this.y + 2));
-            availableMoves.Add(new Vector2(this.x + 1, this.y - 2));
-            availableMoves.Add(new Vector2(this.x - 1, this.y - 2));
-            availableMoves.Add(new Vector2(this.x + 2, this.y + 1));
-            availableMoves.Add(new Vector2(this.x + 2, this.y - 1));
-            availableMoves.Add(new Vector2(this.x - 2, this.y + 1));
-            availableMoves.Add(new Vector2(this.x - 2, this.y - 1));
+            List<Vector2> potentialMoves = new List<Vector2>();
+            potentialMoves.Add(new Vector2(this.x + 1, this.y + 2));
+            potentialMoves.Add(new Vector2(this.x - 1, this.y + 2));
+            potentialMoves.Add(new Vector2(this.x + 1, this.y - 2));
+            potentialMoves.Add(new Vector2(this.x - 1, this.y - 2));
+            potentialMoves.Add(new Vector2(this.x + 2, this.y + 1));
+            potentialMoves.Add(new Vector2(this.x + 2, this.y - 1));
+            potentialMoves.Add(new Vector2(this.x - 2, this.y + 1));
+            potentialMoves.Add(new Vector2(this.x - 2, this.y - 1));
 
-            availableMoves.RemoveAll(move => move.X > 7 || move.X < 0 || move.Y > 7 || move.Y < 0);
+            potentialMoves.RemoveAll(move => move.X > 7 || move.X < 0 || move.Y > 7 || move.Y < 0);
 
-            return availableMoves;
+            List<Vector2> controlledSquares = new List<Vector2>();
+            foreach(Vector2 move in potentialMoves)
+            {
+                controlledSquares.Add(move);
+            }
+
+            foreach(Vector2 move in potentialMoves)
+            {
+                foreach(Piece p in pieceList) if (p.x == (int)move.X && p.y == (int)move.Y && p.isWhite == this.isWhite)
+                {
+                    controlledSquares.Remove(move);
+                }
+            }
+
+            return controlledSquares;
         }
     }
 }

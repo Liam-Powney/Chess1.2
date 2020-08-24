@@ -34,16 +34,15 @@ namespace Game1
         public override Piece copyPiece()
         {
             Rook copiedPiece = new Rook(this.x, this.y, this.isWhite);
-            copiedPiece.isSelected = this.isSelected;
             copiedPiece.hasMoved = this.hasMoved;
             copiedPiece.pawnLastDoulbeMove = this.pawnLastDoulbeMove;
             return copiedPiece;
         }
 
         //returns available moves for a selected peice
-        public override List<Vector2> availableMoves(List<Piece> pieceList)
+        public override List<Vector2> controlledSquares(List<Piece> pieceList)
         {
-            List<Vector2> availableMoves = new List<Vector2>();
+            List<Vector2> controlledSquares = new List<Vector2>();
             bool timeToStop = false;
 
             //check squares left of rook
@@ -55,7 +54,7 @@ namespace Game1
                     {
                         if (p.isWhite != isWhite)
                         {
-                            availableMoves.Add(new Vector2(i, y));
+                            controlledSquares.Add(new Vector2(i, y));
                             timeToStop = true;
                             break;
                         }
@@ -69,7 +68,7 @@ namespace Game1
                 }
                 else
                 {
-                    availableMoves.Add(new Vector2(i, y));
+                    controlledSquares.Add(new Vector2(i, y));
                 }
             }
             timeToStop = false;
@@ -83,7 +82,7 @@ namespace Game1
                     {
                         if (p.isWhite != isWhite)
                         {
-                            availableMoves.Add(new Vector2(i, y));
+                            controlledSquares.Add(new Vector2(i, y));
                             timeToStop = true;
                             break;
                         }
@@ -97,7 +96,7 @@ namespace Game1
                 }
                 else
                 {
-                    availableMoves.Add(new Vector2(i, y));
+                    controlledSquares.Add(new Vector2(i, y));
                 }
             }
             timeToStop = false;
@@ -111,7 +110,7 @@ namespace Game1
                     {
                         if (p.isWhite != isWhite)
                         {
-                            availableMoves.Add(new Vector2(x, i));
+                            controlledSquares.Add(new Vector2(x, i));
                             timeToStop = true;
                             break;
                         }
@@ -125,7 +124,7 @@ namespace Game1
                 }
                 else
                 {
-                    availableMoves.Add(new Vector2(x, i));
+                    controlledSquares.Add(new Vector2(x, i));
                 }
             }
             timeToStop = false;
@@ -139,7 +138,7 @@ namespace Game1
                     {
                         if (p.isWhite != isWhite)
                         {
-                            availableMoves.Add(new Vector2(x, i));
+                            controlledSquares.Add(new Vector2(x, i));
                             timeToStop = true;
                             break;
                         }
@@ -153,11 +152,11 @@ namespace Game1
                 }
                 else
                 {
-                    availableMoves.Add(new Vector2(x, i));
+                    controlledSquares.Add(new Vector2(x, i));
                 }
             }
 
-            return availableMoves;
+            return controlledSquares;
         }
     }
 }

@@ -33,16 +33,15 @@ namespace Game1
         public override Piece copyPiece()
         {
             Bishop copiedPiece = new Bishop(this.x, this.y, this.isWhite);
-            copiedPiece.isSelected = this.isSelected;
             copiedPiece.hasMoved = this.hasMoved;
             copiedPiece.pawnLastDoulbeMove = this.pawnLastDoulbeMove;
             return copiedPiece;
         }
 
         //returns available moves for a selected peice
-        public override List<Vector2> availableMoves(List<Piece> pieceList)
+        public override List<Vector2> controlledSquares(List<Piece> pieceList)
         {
-            List<Vector2> availableMoves = new List<Vector2>();
+            List<Vector2> controlledSquares = new List<Vector2>();
 
             int squareToCheckX = this.x;
             int squareToCheckY = this.y;
@@ -62,12 +61,12 @@ namespace Game1
                         }
                         else
                         {
-                            availableMoves.Add(new Vector2(squareToCheckX, squareToCheckY));
+                            controlledSquares.Add(new Vector2(squareToCheckX, squareToCheckY));
                             goto NextIteration;
                         }
                     }
                 }
-                availableMoves.Add(new Vector2(squareToCheckX, squareToCheckY));
+                controlledSquares.Add(new Vector2(squareToCheckX, squareToCheckY));
             }
 
             NextIteration : 
@@ -90,12 +89,12 @@ namespace Game1
                         }
                         else
                         {
-                            availableMoves.Add(new Vector2(squareToCheckX, squareToCheckY));
+                            controlledSquares.Add(new Vector2(squareToCheckX, squareToCheckY));
                             goto NextIteration1;
                         }
                     }
                 }
-                availableMoves.Add(new Vector2(squareToCheckX, squareToCheckY));
+                controlledSquares.Add(new Vector2(squareToCheckX, squareToCheckY));
             }
 
             NextIteration1 :
@@ -118,12 +117,12 @@ namespace Game1
                         }
                         else
                         {
-                            availableMoves.Add(new Vector2(squareToCheckX, squareToCheckY));
+                            controlledSquares.Add(new Vector2(squareToCheckX, squareToCheckY));
                             goto NextIteration2;
                         }
                     }
                 }
-                availableMoves.Add(new Vector2(squareToCheckX, squareToCheckY));
+                controlledSquares.Add(new Vector2(squareToCheckX, squareToCheckY));
             }
 
             NextIteration2 :
@@ -146,14 +145,14 @@ namespace Game1
                         }
                         else
                         {
-                            availableMoves.Add(new Vector2(squareToCheckX, squareToCheckY));
+                            controlledSquares.Add(new Vector2(squareToCheckX, squareToCheckY));
                             goto End;
                         }
                     }
                 }
-                availableMoves.Add(new Vector2(squareToCheckX, squareToCheckY));
+                controlledSquares.Add(new Vector2(squareToCheckX, squareToCheckY));
             }
-            End : return availableMoves;
+        End: return controlledSquares;
         }
     }
 }

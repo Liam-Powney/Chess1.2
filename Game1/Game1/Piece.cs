@@ -17,7 +17,6 @@ namespace Game1
         public int y;
         public bool isWhite;
         public bool hasMoved;
-        public bool isSelected;
         public bool pawnLastDoulbeMove = false;
 
         public static Texture2D whiteRook;
@@ -38,11 +37,10 @@ namespace Game1
             this.x = x;
             this.y = y;
             this.isWhite = isWhite;
-            this.isSelected = false;
             this.hasMoved = false;
         }
 
-        public virtual List<Vector2> availableMoves(List<Piece> pieceList)
+        public virtual List<Vector2> controlledSquares(List<Piece> pieceList)
         {
             return new List<Vector2>();
         }
@@ -71,7 +69,6 @@ namespace Game1
         public virtual Piece copyPiece()
         {
             Piece copiedPiece = new Piece(this.x, this.y, this.isWhite);
-            copiedPiece.isSelected = this.isSelected;
             copiedPiece.hasMoved = this.hasMoved;
             copiedPiece.pawnLastDoulbeMove = this.pawnLastDoulbeMove;
             return copiedPiece;

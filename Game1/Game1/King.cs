@@ -34,16 +34,15 @@ namespace Game1
         public override Piece copyPiece()
         {
             King copiedPiece = new King(this.x, this.y, this.isWhite);
-            copiedPiece.isSelected = this.isSelected;
             copiedPiece.hasMoved = this.hasMoved;
             copiedPiece.pawnLastDoulbeMove = this.pawnLastDoulbeMove;
             return copiedPiece;
         }
 
-        public override List<Vector2> availableMoves(List<Piece> pieceList)
+        public override List<Vector2> controlledSquares(List<Piece> pieceList)
         {
             //Console.WriteLine("Finding King Moves");
-            List<Vector2> availableMoves = new List<Vector2>();
+            List<Vector2> controlledSquares = new List<Vector2>();
 
             for (int i = -1; i < 2; i++)
 			{
@@ -54,7 +53,14 @@ namespace Game1
                         continue;
                     }
 
-                    availableMoves.Add(new Vector2(x + i, y + j));
+                    if (!(x + i > 7 || x + i < 0 || y + j > 7 || y + j < 0))
+                    {
+                        controlledSquares.Add(new Vector2(x + i, y + j));
+                    }
+                    else
+                    {
+                        continue;
+                    }
 
                     foreach (Piece p in pieceList)
                     {
@@ -66,7 +72,7 @@ namespace Game1
                             }
                             else
                             {
-                                availableMoves.RemoveAt(availableMoves.Count - 1);
+                                controlledSquares.RemoveAt(controlledSquares.Count - 1);
                                 break;
                             }
                         }
@@ -96,7 +102,7 @@ namespace Game1
                 // removes castling through check
                 foreach(Piece p in pieceList) if (p.isWhite != this.isWhite && !(p is King))
                 {
-                    foreach(Vector2 move in p.availableMoves(pieceList))
+                    foreach (Vector2 move in p.controlledSquares(pieceList))
                     {
                         if (move.X == square.X && move.Y == square.Y)
                         {
@@ -116,7 +122,7 @@ namespace Game1
 
             foreach (Piece rook in RookList) if (rook.x == (int)castlingSquares[2].X && rook.y == (int)castlingSquares[2].Y && !rook.hasMoved)
             {
-                availableMoves.Add(new Vector2(this.x + 2, this.y));
+                controlledSquares.Add(new Vector2(this.x + 2, this.y));
             }
 
             // Queen Side Castling
@@ -140,7 +146,7 @@ namespace Game1
                 }
                 foreach (Piece p in pieceList) if (p.isWhite != this.isWhite && !(p is King))
                     {
-                        foreach (Vector2 move in p.availableMoves(pieceList))
+                        foreach (Vector2 move in p.controlledSquares(pieceList))
                         {
                             if (move.X == square.X && move.Y == square.Y)
                             {
@@ -160,12 +166,12 @@ namespace Game1
 
             foreach (Piece rook in RookList1) if (rook.x == (int)castlingSquares[3].X && rook.y == (int)castlingSquares[3].Y && !rook.hasMoved)
                 {
-                    availableMoves.Add(new Vector2(this.x - 2, this.y));
+                    controlledSquares.Add(new Vector2(this.x - 2, this.y));
                 }
 
-            End : 
+            End :
 
-            return availableMoves;
+            return controlledSquares;
         }
 
 

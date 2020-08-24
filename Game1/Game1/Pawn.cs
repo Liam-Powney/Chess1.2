@@ -32,16 +32,13 @@ namespace Game1
         public override Piece copyPiece()
         {
             Pawn copiedPiece = new Pawn(this.x, this.y, this.isWhite);
-            copiedPiece.isSelected = this.isSelected;
-            copiedPiece.hasMoved = this.hasMoved;
-            copiedPiece.pawnLastDoulbeMove = this.pawnLastDoulbeMove;
             return copiedPiece;
         }
 
         //returns available moves for a selected peice
-        public override List<Vector2> availableMoves(List<Piece> pieceList)
+        public override List<Vector2> controlledSquares(List<Piece> pieceList)
         {
-            List<Vector2> availableMoves = new List<Vector2>();
+            List<Vector2> controlledSquares = new List<Vector2>();
 
             if (this.isWhite)
             {
@@ -53,7 +50,7 @@ namespace Game1
                         goto WhitePawnAttack;
                     }
                 }
-                availableMoves.Add(new Vector2(this.x, this.y + 1));
+                controlledSquares.Add(new Vector2(this.x, this.y + 1));
 
                 //check attacking squares
                 WhitePawnAttack : 
@@ -62,11 +59,11 @@ namespace Game1
                 {
                     if (p.x == this.x - 1 && p.y == this.y + 1 && p.isWhite != this.isWhite)
                     {
-                        availableMoves.Add(new Vector2(this.x - 1, this.y + 1));
+                        controlledSquares.Add(new Vector2(this.x - 1, this.y + 1));
                     }
                     else if (p.x == this.x + 1 && p.y == this.y + 1 && p.isWhite != this.isWhite)
                     {
-                        availableMoves.Add(new Vector2(this.x + 1, this.y + 1));
+                        controlledSquares.Add(new Vector2(this.x + 1, this.y + 1));
                     }
                 }
 
@@ -75,12 +72,12 @@ namespace Game1
                 {
                     foreach(Piece p in pieceList)
                     {
-                        if (p.x == this.x && p.y == this.y + 2)
+                        if (p.x == this.x && p.y == this.y + 2 || p.x == this.x && p.y == this.y + 1)
                         {
                             goto End;
                         }
                     }
-                    availableMoves.Add(new Vector2(this.x, this.y + 2));
+                    controlledSquares.Add(new Vector2(this.x, this.y + 2));
                 }
 
                 // en passant
@@ -88,15 +85,15 @@ namespace Game1
                 {
                     if (p is Pawn && this.y == p.y && this.x + 1 == p.x && p.pawnLastDoulbeMove)
                     {
-                        availableMoves.Add(new Vector2(this.x + 1, this.y + 1));
+                        controlledSquares.Add(new Vector2(this.x + 1, this.y + 1));
                     }
                     else if (p is Pawn && this.y == p.y && this.x -1 == p.x && p.pawnLastDoulbeMove)
                     {
-                        availableMoves.Add(new Vector2(this.x - 1, this.y + 1));
+                        controlledSquares.Add(new Vector2(this.x - 1, this.y + 1));
                     }
                 }
 
-            End : return availableMoves;
+            End: return controlledSquares;
             }
             else
             {
@@ -108,7 +105,7 @@ namespace Game1
                         goto BlackPawnAttack;
                     }
                 }
-                availableMoves.Add(new Vector2(this.x, this.y - 1));
+                controlledSquares.Add(new Vector2(this.x, this.y - 1));
 
                 //check attacking squares
                 BlackPawnAttack:
@@ -117,11 +114,11 @@ namespace Game1
                 {
                     if (p.x == this.x - 1 && p.y == this.y - 1 && p.isWhite != this.isWhite)
                     {
-                        availableMoves.Add(new Vector2(this.x - 1, this.y - 1));
+                        controlledSquares.Add(new Vector2(this.x - 1, this.y - 1));
                     }
                     else if (p.x == this.x + 1 && p.y == this.y - 1 && p.isWhite != this.isWhite)
                     {
-                        availableMoves.Add(new Vector2(this.x + 1, this.y - 1));
+                        controlledSquares.Add(new Vector2(this.x + 1, this.y - 1));
                     }
                 }
 
@@ -130,12 +127,12 @@ namespace Game1
                 {
                     foreach (Piece p in pieceList)
                     {
-                        if (p.x == this.x && p.y == this.y - 2)
+                        if (p.x == this.x && p.y == this.y - 2 || p.x == this.x && p.y == this.y - 1)
                         {
                             goto End;
                         }
                     }
-                    availableMoves.Add(new Vector2(this.x, this.y - 2));
+                    controlledSquares.Add(new Vector2(this.x, this.y - 2));
                 }
 
                 // en passant
@@ -143,15 +140,15 @@ namespace Game1
                 {
                     if (p is Pawn && this.y == p.y && this.x + 1 == p.x && p.pawnLastDoulbeMove)
                     {
-                        availableMoves.Add(new Vector2(this.x + 1, this.y - 1));
+                        controlledSquares.Add(new Vector2(this.x + 1, this.y - 1));
                     }
                     else if (p is Pawn && this.y == p.y && this.x -1 == p.x && p.pawnLastDoulbeMove)
                     {
-                        availableMoves.Add(new Vector2(this.x - 1, this.y - 1));
+                        controlledSquares.Add(new Vector2(this.x - 1, this.y - 1));
                     }
                 }
 
-            End: return availableMoves;
+            End: return controlledSquares;
             }
         }
     }
