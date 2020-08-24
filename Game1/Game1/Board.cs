@@ -13,7 +13,7 @@ namespace Game1
     {
         const int TILE_SIZE = 128;
 
-        public bool whitesTurn = true;
+        public bool whitesTurn = false;
         public Piece selectedPiece;
         public List<Vector2> moves = new List<Vector2>();
 
@@ -80,38 +80,38 @@ namespace Game1
             Pieces.Clear();
 
             //create board pieces here
-            Pieces.Add(new Rook(0, 0, true));
-            Pieces.Add(new Rook(7, 0, true));
-            Pieces.Add(new Rook(0, 7, false));
-            Pieces.Add(new Rook(7, 7, false));
-            Pieces.Add(new King(4, 0, true));
-            Pieces.Add(new King(4, 7, false));
-            Pieces.Add(new Knight(1, 0, true));
-            Pieces.Add(new Knight(6, 0, true));
-            Pieces.Add(new Knight(1, 7, false));
-            Pieces.Add(new Knight(6, 7, false));
-            Pieces.Add(new Bishop(2, 0, true));
-            Pieces.Add(new Bishop(5, 0, true));
-            Pieces.Add(new Bishop(2, 7, false));
-            Pieces.Add(new Bishop(5, 7, false));
-            Pieces.Add(new Queen(3, 0, true));
-            Pieces.Add(new Queen(3, 7, false));
-            Pieces.Add(new Pawn(0, 1, true));
-            Pieces.Add(new Pawn(1, 1, true));
-            Pieces.Add(new Pawn(2, 1, true));
-            Pieces.Add(new Pawn(3, 1, true));
-            Pieces.Add(new Pawn(4, 1, true));
-            Pieces.Add(new Pawn(5, 1, true));
-            Pieces.Add(new Pawn(6, 1, true));
-            Pieces.Add(new Pawn(7, 1, true));
-            Pieces.Add(new Pawn(0, 6, false));
-            Pieces.Add(new Pawn(1, 6, false));
-            Pieces.Add(new Pawn(2, 6, false));
-            Pieces.Add(new Pawn(3, 6, false));
-            Pieces.Add(new Pawn(4, 6, false));
-            Pieces.Add(new Pawn(5, 6, false));
-            Pieces.Add(new Pawn(6, 6, false));
-            Pieces.Add(new Pawn(7, 6, false));
+            //Pieces.Add(new Rook(0, 0, true));
+            //Pieces.Add(new Rook(7, 0, true));
+            //Pieces.Add(new Rook(0, 7, false));
+            //Pieces.Add(new Rook(7, 6, false));
+            Pieces.Add(new King(7, 7, true));
+            Pieces.Add(new King(5, 6, false));
+            //Pieces.Add(new Knight(1, 0, true));
+            //Pieces.Add(new Knight(6, 0, true));
+            //Pieces.Add(new Knight(1, 7, false));
+            //Pieces.Add(new Knight(6, 7, false));
+            //Pieces.Add(new Bishop(2, 0, true));
+            //Pieces.Add(new Bishop(5, 0, true));
+            //Pieces.Add(new Bishop(2, 7, false));
+            //Pieces.Add(new Bishop(5, 7, false));
+            //Pieces.Add(new Queen(3, 0, true));
+            Pieces.Add(new Queen(6, 0, false));
+            //Pieces.Add(new Pawn(0, 1, true));
+            //Pieces.Add(new Pawn(1, 1, true));
+            //Pieces.Add(new Pawn(2, 1, true));
+            //Pieces.Add(new Pawn(3, 1, true));
+            //Pieces.Add(new Pawn(4, 1, true));
+            //Pieces.Add(new Pawn(5, 1, true));
+            //Pieces.Add(new Pawn(6, 1, true));
+            //Pieces.Add(new Pawn(7, 1, true));
+            //Pieces.Add(new Pawn(0, 6, false));
+            //Pieces.Add(new Pawn(1, 6, false));
+            //Pieces.Add(new Pawn(2, 6, false));
+            //Pieces.Add(new Pawn(3, 6, false));
+            //Pieces.Add(new Pawn(4, 6, false));
+            //Pieces.Add(new Pawn(5, 6, false));
+            //Pieces.Add(new Pawn(6, 6, false));
+            //Pieces.Add(new Pawn(7, 6, false));
 
         }
 
@@ -133,11 +133,18 @@ namespace Game1
         {
             this.selectedPiece = p;
             this.moves = availableMoves();
+            Console.WriteLine("New selected Piece is " + p.ToString());
+            Console.WriteLine("This piece has " + moves.Count().ToString() + " available moves!");
+            foreach(Vector2 move in moves)
+            {
+                Console.WriteLine(move.ToString());
+            }
         }
 
         // de-selects a peice
         public void deselectPiece()
         {
+            Console.WriteLine("Piece " + selectedPiece.ToString() + " has been deselected!");
             this.selectedPiece = null;
             this.moves.Clear();
         }
@@ -311,45 +318,60 @@ namespace Game1
         // checks for checkmate and stalemate
         public void checkmate()
         {
+            foreach(Piece p in Pieces)
+            {
+                Console.WriteLine(p.ToString() + "'s position is: " + p.x.ToString() + ", " + p.y.ToString());
+            }
+
+
             bool playerHasMoves = false;
             bool kingIsAttacked = false;
 
+            Piece opponentsKing = null;
+
+            foreach(Piece p in Pieces) if (p is King && p.isWhite != whitesTurn)
+            {
+                opponentsKing = p;
+            }
+
             foreach (Piece p in Pieces) if (p.isWhite != whitesTurn)
+            {
+                selectPiece(p);
+                if (moves.Count() != 0)
                 {
-                    if (checklessMoves(p.controlledSquares(Pieces)).Count() != 0)
+                    playerHasMoves = true;
+                    deselectPiece();
+                    break;
+                }
+                deselectPiece();
+            }
+
+            foreach(Piece p in Pieces) if (p.isWhite == whitesTurn)
+            {
+                foreach(Vector2 square in p.controlledSquares(Pieces))
+                {
+                    if ((int)square.X == opponentsKing.x && (int)square.Y == opponentsKing.y)
                     {
-                        playerHasMoves = true;
+                        kingIsAttacked = true;
+                        goto Matecheck;
                     }
                 }
-
-            foreach (Piece p in Pieces) if (p.isWhite == whitesTurn)
-                {
-                    foreach (Vector2 move in p.controlledSquares(Pieces))
-                    {
-                        if (king(!whitesTurn).x == (int)move.X && king(!whitesTurn).y == (int)move.Y)
-                        {
-                            kingIsAttacked = true;
-                        }
-                    }
-                }
-
-            if (!playerHasMoves && kingIsAttacked)
-            {
-                if (whitesTurn)
-                {
-                    Console.WriteLine("Checkmate! Black Wins!");
-                }
-                else
-                {
-                    Console.WriteLine("Checkmate! White Wins!");
-                }
             }
-            else if (!playerHasMoves && !kingIsAttacked)
-            {
-                Console.WriteLine("Stalemate!");
-            }
-            //Console.WriteLine("Checkmate was checked for");
 
+            Matecheck :
+
+            if (kingIsAttacked)
+            {
+                Console.WriteLine("Check");
+            }
+            if (!playerHasMoves)
+            {
+                Console.WriteLine("Player has no moves!");
+            }
+            else
+            {
+                Console.WriteLine("Player has available moves!");
+            }
         }
 
     }

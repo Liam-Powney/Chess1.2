@@ -122,7 +122,7 @@ namespace Game1
                 {
                     board.Move(board.selectedPiece, xClickCoord, yClickCoord);
                     board.deselectPiece();
-                    //board.checkmate();
+                    board.checkmate();
                     board.whitesTurn = !board.whitesTurn;
                 }
             }

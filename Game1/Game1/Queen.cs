@@ -45,7 +45,7 @@ namespace Game1
 
             bool timeToStop = false;
 
-            //check squares left of Queen
+            //check squares right of Queen
             for (int i = x + 1; i < 8; i++)
             {
                 foreach (Piece p in pieceList)
@@ -73,7 +73,7 @@ namespace Game1
             }
             timeToStop = false;
 
-            //check squares right of Queen
+            //check squares left of Queen
             for (int i = x - 1; i >= 0; i = i - 1)
             {
                 foreach (Piece p in pieceList)
@@ -160,7 +160,7 @@ namespace Game1
             int squareToCheckY = this.y;
 
             //checks squares up and right
-            while (squareToCheckX < 8)
+            while (squareToCheckX < 7 && squareToCheckY < 7)
             {
                 squareToCheckX++;
                 squareToCheckY++;
@@ -188,7 +188,7 @@ namespace Game1
             squareToCheckY = this.y;
 
             // checks squares down and right
-            while (squareToCheckX < 8)
+            while (squareToCheckX < 7 && squareToCheckY > 0)
             {
                 squareToCheckX++;
                 squareToCheckY--;
@@ -216,7 +216,7 @@ namespace Game1
             squareToCheckY = this.y;
 
             // checks squares down and left
-            while (squareToCheckX >= 0)
+            while (squareToCheckX > 0 && squareToCheckY > 0)
             {
                 squareToCheckX--;
                 squareToCheckY--;
@@ -244,7 +244,7 @@ namespace Game1
             squareToCheckY = this.y;
 
             // checks squares up and left
-            while (squareToCheckX >= 0)
+            while (squareToCheckX > 0 && squareToCheckY < 7)
             {
                 squareToCheckX--;
                 squareToCheckY++;
@@ -266,7 +266,9 @@ namespace Game1
                 controlledSquares.Add(new Vector2(squareToCheckX, squareToCheckY));
             }
 
-        End: return controlledSquares;
+        End: 
+            
+            return controlledSquares;
         }
     }
 }
